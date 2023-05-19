@@ -1,8 +1,3 @@
-export interface IResponse<T> {
-    incomplete_results: boolean;
-    items: Array<T>;
-    total_count: number;
-}
 
 export interface IUser {
     id: number,
@@ -13,7 +8,6 @@ export interface IUser {
     events_url: string,
     type: string,
     score: number
-
     node_id?: string,
     gravatar_id?:string,
     url?: string,

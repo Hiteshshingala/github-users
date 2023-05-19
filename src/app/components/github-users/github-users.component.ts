@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiService} from '../../services/api.service';
-import { IResponse, IUser } from '../../interface/github-users'
+import { IResponse, IUser } from '../../interface'
 
 
 @Component({
@@ -53,7 +53,6 @@ export class GithubUsersComponent implements OnInit {
           userData.push(user);
         })
         this.githubUsers = userData;     
-        console.log('@@githubUsers', this.githubUsers);
       }
     },(error) => {
       console.log('Error:', error);
