@@ -25,12 +25,12 @@ export class ApiService {
     if (filterByUserName || filterByEmail || filterById) {
       const filters = [filterByUserName, filterByEmail, filterById].filter(
         (filter) => !!filter,
-        );
-        params.push(`q=${filters.join('+')}`);
-        url += `?${params.join('&')}`;
-      } else {
-        params.push(`q=a`);
-        url += `?${params.join('&')}`;
+      );
+      params.push(`q=${filters.join('+')}`);
+      url += `?${params.join('&')}`;
+    } else {
+      params.push(`q=a`);
+      url += `?${params.join('&')}`;
     }
     return this.http.get<IResponse<IUser>>(url);
   }

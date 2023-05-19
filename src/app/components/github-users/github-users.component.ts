@@ -87,7 +87,6 @@ export class GithubUsersComponent implements OnInit {
 
   public ngOnInit(): void {
     this.getUsers();
-    
   }
 
   protected applyFilters() {
@@ -104,7 +103,13 @@ export class GithubUsersComponent implements OnInit {
   ) {
     this.isLoading = true;
     this.apiService
-      .getUsers(this.currentPage, this.itemsPerPage, filterByUserName, filterByEmail, filterById)
+      .getUsers(
+        this.currentPage,
+        this.itemsPerPage,
+        filterByUserName,
+        filterByEmail,
+        filterById,
+      )
       .subscribe({
         next: (res: IResponse<IUser>) => {
           if (res.total_count) {
@@ -121,20 +126,26 @@ export class GithubUsersComponent implements OnInit {
       });
   }
 
-  protected goToPreviousPage(){
-    this.goToPage(this.currentPage > 1 ? this.currentPage - 1 : this.currentPage);
+  protected goToPreviousPage() {
+    this.goToPage(
+      this.currentPage > 1 ? this.currentPage - 1 : this.currentPage,
+    );
   }
 
-  protected goToNextPage(){
-    this.goToPage(this.totalPages > this.currentPage + 1 ? this.currentPage + 1 : this.currentPage);
+  protected goToNextPage() {
+    this.goToPage(
+      this.totalPages > this.currentPage + 1
+        ? this.currentPage + 1
+        : this.currentPage,
+    );
   }
 
-  public goToPage(page: number){
+  public goToPage(page: number) {
     this.currentPage = page;
     this.getUsers(this.filterByUserName, this.filterByEmail, this.filterById);
   }
 
-  private setPageRange(currentPage: number){
+  private setPageRange(currentPage: number) {
     let visiblePages = 5;
     const halfVisiblePages = Math.floor(visiblePages / 2);
     let startPage = Math.max(currentPage - halfVisiblePages, 1);

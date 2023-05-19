@@ -1,5 +1,5 @@
 <div class="main=page">
-    <app-app-loader [isLoading]="isLoading"></app-app-loader>
+  <app-app-loader [isLoading]="isLoading"></app-app-loader>
   <div class="filter-container">
     <input
       type="text"
@@ -28,12 +28,23 @@
     style="width: 100%; height: 85vh"
     class="ag-theme-alpine"
     [rowData]="githubUsers"
-    [columnDefs]="columnDefs">
+    [columnDefs]="columnDefs"
+  >
   </ag-grid-angular>
 
   <div class="pagination">
-    <button (click)="goToPreviousPage()" [disabled]="currentPage === 1">Previous</button>
-    <a href="#" [ngClass]="currentPage === page ? 'active' : ''" (click)="goToPage(page)" *ngFor="let page of displayPageRange">{{page}}</a>
-    <button (click)="goToNextPage()" [disabled]="currentPage === totalPages">Next</button>
+    <button (click)="goToPreviousPage()" [disabled]="currentPage === 1">
+      Previous
+    </button>
+    <a
+      href="#"
+      [ngClass]="currentPage === page ? 'active' : ''"
+      (click)="goToPage(page)"
+      *ngFor="let page of displayPageRange"
+      >{{ page }}</a
+    >
+    <button (click)="goToNextPage()" [disabled]="currentPage === totalPages">
+      Next
+    </button>
   </div>
 </div>
