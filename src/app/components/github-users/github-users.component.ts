@@ -10,7 +10,7 @@ import { IResponse, IUser } from '../../interface'
 })
 export class GithubUsersComponent implements OnInit {
 
-  githubUsers: Array<IUser> = [];
+  githubUsers: IUser[] = [];
   timeoutId: any;
   filter1: string = '';
   filter2: string = '';
@@ -36,10 +36,7 @@ export class GithubUsersComponent implements OnInit {
   getUsers(filter1?: string, filter2?: string, filter3?: string){
     this.apiService.getUsers(filter1, filter2, filter3).subscribe((res: IResponse<IUser>) => {
       if(res.total_count) {
-        debugger
-        const userData: Array<IUser> = [];
-        res.items.forEach(el => {
-          const user = {
+        this.githubUsers = res.items.map(el => ({
             id: el.id,
             login: el.login,
             avatar_url: el.avatar_url,
@@ -49,13 +46,10 @@ export class GithubUsersComponent implements OnInit {
             score: el.score,
             type: el.type,
             node_id: el.node_id,
-          }
-          userData.push(user);
-        })
-        this.githubUsers = userData;     
+        }))
       }
     },(error) => {
-      console.log('Error:', error);
+      console.error('Error:', error);
     })
   }
 
