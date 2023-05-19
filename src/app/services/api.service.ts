@@ -15,15 +15,15 @@ export class ApiService {
     currentPage: number,
     itemsPerPage: number,
     filterByUserName?: string,
-    filterByEmail?: string,
-    filterById?: string,
+    filterByName?: string,
+    filterByLogin?: string,
   ): Observable<IResponse<IUser>> {
     let url = `${this.apiUrl}/users`;
     let params = [];
     params.push(`page=${currentPage}`);
     params.push(`per_page=${itemsPerPage}`);
-    if (filterByUserName || filterByEmail || filterById) {
-      const filters = [filterByUserName, filterByEmail, filterById].filter(
+    if (filterByUserName || filterByName || filterByLogin) {
+      const filters = [filterByUserName, filterByName, filterByLogin].filter(
         (filter) => !!filter,
       );
       params.push(`q=${filters.join('+')}`);

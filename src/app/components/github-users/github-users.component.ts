@@ -9,17 +9,17 @@ import { ColDef, ICellRendererParams } from 'ag-grid-community';
   styleUrls: ['./github-users.component.scss'],
 })
 export class GithubUsersComponent implements OnInit {
-  githubUsers: IUser[] = [];
-  timeoutId: NodeJS.Timeout;
-  filterByUserName: string = '';
-  filterByEmail: string = '';
-  filterById: string = '';
-  currentPage: number = 1;
-  itemsPerPage: number = 10;
-  totalPages: number = 0;
-  displayPageRange: number[] = [];
-  isLoading: boolean = false;
-  columnDefs: ColDef[] = [
+  protected githubUsers: IUser[] = [];
+  protected timeoutId: NodeJS.Timeout;
+  protected filterByUserName: string = '';
+  protected filterByName: string = '';
+  protected filterByLogin: string = '';
+  protected currentPage: number = 1;
+  protected itemsPerPage: number = 10;
+  protected totalPages: number = 0;
+  protected displayPageRange: number[] = [];
+  protected isLoading: boolean = false;
+  protected columnDefs: ColDef[] = [
     {
       field: 'id',
       headerName: 'id',
@@ -98,8 +98,8 @@ export class GithubUsersComponent implements OnInit {
 
   private getUsers(
     filterByUserName?: string,
-    filterByEmail?: string,
-    filterById?: string,
+    filterByName?: string,
+    filterByLogin?: string,
   ) {
     this.isLoading = true;
     this.apiService
@@ -107,8 +107,8 @@ export class GithubUsersComponent implements OnInit {
         this.currentPage,
         this.itemsPerPage,
         filterByUserName,
-        filterByEmail,
-        filterById,
+        filterByName,
+        filterByLogin,
       )
       .subscribe({
         next: (res: IResponse<IUser>) => {
@@ -140,9 +140,9 @@ export class GithubUsersComponent implements OnInit {
     );
   }
 
-  public goToPage(page: number) {
+  protected goToPage(page: number) {
     this.currentPage = page;
-    this.getUsers(this.filterByUserName, this.filterByEmail, this.filterById);
+    this.getUsers(this.filterByUserName, this.filterByName, this.filterByLogin);
   }
 
   private setPageRange(currentPage: number) {
