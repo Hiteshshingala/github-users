@@ -26,7 +26,7 @@ export class ApiService {
       const filters = [filterByUserName, filterByName, filterByLogin].filter(
         (filter) => !!filter,
       );
-      params.push(`q=${filters.join('+')}`);
+      params.push(`q=${filters.join(' OR ')}`);
       url += `?${params.join('&')}`;
     } else {
       params.push(`q=a`);

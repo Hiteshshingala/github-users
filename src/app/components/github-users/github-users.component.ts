@@ -116,8 +116,8 @@ export class GithubUsersComponent implements OnInit {
             this.githubUsers = res.items;
             this.totalPages = Math.ceil(res.total_count / this.itemsPerPage);
             this.setPageRange(this.currentPage);
-            this.isLoading = false;
           }
+          this.isLoading = false;
         },
         error: (error) => {
           console.error('Error:', error);
