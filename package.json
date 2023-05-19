@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "prod-build": "ng build --configuration=production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -17,7 +18,11 @@
     "@angular/forms": "^14.0.0",
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
+    "@angular/pwa": "^0.5.3",
     "@angular/router": "^14.0.0",
+    "@angular/service-worker": "^14.0.0",
+    "ag-grid-angular": "^29.3.5",
+    "ag-grid-community": "^29.3.5",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
