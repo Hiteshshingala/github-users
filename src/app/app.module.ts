@@ -9,9 +9,10 @@ import { GithubUsersComponent } from './components/github-users/github-users.com
 import { FormsModule } from '@angular/forms';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { AppLoaderComponent } from './common/components/app-loader/app-loader.component';
 
 @NgModule({
-  declarations: [AppComponent, GithubUsersComponent],
+  declarations: [AppComponent, GithubUsersComponent, AppLoaderComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

@@ -10,10 +10,15 @@ import { ColDef, ICellRendererParams } from 'ag-grid-community';
 })
 export class GithubUsersComponent implements OnInit {
   githubUsers: IUser[] = [];
-  timeoutId: NodeJS.Timeout = setTimeout(() => {}, 2);
+  timeoutId: NodeJS.Timeout;
   filterByUserName: string = '';
   filterByEmail: string = '';
   filterById: string = '';
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+  totalPages: number = 0;
+  displayPageRange: number[] = [];
+  isLoading: boolean = false;
   columnDefs: ColDef[] = [
     {
       field: 'id',
@@ -82,12 +87,13 @@ export class GithubUsersComponent implements OnInit {
 
   public ngOnInit(): void {
     this.getUsers();
+    
   }
 
   protected applyFilters() {
     clearTimeout(this.timeoutId);
     this.timeoutId = setTimeout(() => {
-      this.getUsers(this.filterByUserName, this.filterByEmail, this.filterById);
+      this.goToPage(1);
     }, 500);
   }
 
@@ -96,17 +102,52 @@ export class GithubUsersComponent implements OnInit {
     filterByEmail?: string,
     filterById?: string,
   ) {
+    this.isLoading = true;
     this.apiService
-      .getUsers(filterByUserName, filterByEmail, filterById)
+      .getUsers(this.currentPage, this.itemsPerPage, filterByUserName, filterByEmail, filterById)
       .subscribe({
         next: (res: IResponse<IUser>) => {
           if (res.total_count) {
             this.githubUsers = res.items;
+            this.totalPages = Math.ceil(res.total_count / this.itemsPerPage);
+            this.setPageRange(this.currentPage);
+            this.isLoading = false;
           }
         },
         error: (error) => {
           console.error('Error:', error);
+          this.isLoading = false;
         },
       });
+  }
+
+  protected goToPreviousPage(){
+    this.goToPage(this.currentPage > 1 ? this.currentPage - 1 : this.currentPage);
+  }
+
+  protected goToNextPage(){
+    this.goToPage(this.totalPages > this.currentPage + 1 ? this.currentPage + 1 : this.currentPage);
+  }
+
+  public goToPage(page: number){
+    this.currentPage = page;
+    this.getUsers(this.filterByUserName, this.filterByEmail, this.filterById);
+  }
+
+  private setPageRange(currentPage: number){
+    let visiblePages = 5;
+    const halfVisiblePages = Math.floor(visiblePages / 2);
+    let startPage = Math.max(currentPage - halfVisiblePages, 1);
+    let endPage = startPage + visiblePages - 1;
+
+    if (endPage > this.totalPages) {
+      endPage = this.totalPages;
+      startPage = Math.max(endPage - visiblePages + 1, 1);
+    }
+    const pageRange = [];
+    for (let page = startPage; page <= endPage; page++) {
+      pageRange.push(page);
+    }
+    this.displayPageRange = pageRange;
   }
 }
