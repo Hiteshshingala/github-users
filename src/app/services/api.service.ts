@@ -4,17 +4,23 @@ import { Observable } from 'rxjs';
 import { IResponse, IUser } from '../interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService {
   private apiUrl = 'https://api.github.com/search';
 
   constructor(private http: HttpClient) {}
 
-  getUsers(filterByUserName?: string, filterByEmail?: string, filterById?: string): Observable<IResponse<IUser>> {
+  getUsers(
+    filterByUserName?: string,
+    filterByEmail?: string,
+    filterById?: string,
+  ): Observable<IResponse<IUser>> {
     let url = `${this.apiUrl}/users`;
     if (filterByUserName || filterByEmail || filterById) {
-      const filters = [filterByUserName, filterByEmail, filterById].filter(filter => !!filter);
+      const filters = [filterByUserName, filterByEmail, filterById].filter(
+        (filter) => !!filter,
+      );
       const combinedFilters = filters.join('+');
       url += `?per_page=200&q=${combinedFilters}`;
     } else {
