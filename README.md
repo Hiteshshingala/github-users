@@ -27,4 +27,4 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 ## Live Demo
 
-you check live demo from this URL (https://hiteshshingala.github.io/github-users-live).
+You can check out the live demo of the GitHub Users app [here](https://hiteshshingala.github.io/github-users-live).
