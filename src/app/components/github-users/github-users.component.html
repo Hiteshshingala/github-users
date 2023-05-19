@@ -1,15 +1,19 @@
 <div class="main=page">
     <div class="filter-container">
-        <input type="text" [(ngModel)]="filter1" class="filter-input" (input)="applyFilters()" placeholder="Filter 1">
-        <input type="text" [(ngModel)]="filter2" class="filter-input" (input)="applyFilters()" placeholder="Filter 2">
-        <input type="text" [(ngModel)]="filter3" class="filter-input" (input)="applyFilters()" placeholder="Filter 3">
+        <input type="text" [(ngModel)]="filterByUserName" class="filter-input" (input)="applyFilters()" placeholder="Filter By UserName">
+        <input type="text" [(ngModel)]="filterByEmail" class="filter-input" (input)="applyFilters()" placeholder="Filter By Email">
+        <input type="text" [(ngModel)]="filterById" class="filter-input" (input)="applyFilters()" placeholder="Filter By Id">
       </div>
       
     
     <ag-grid-angular 
-        style="width: 99vw; height: 100vh;" 
+        style="width: 99vw; height: 85vh;" 
         class="ag-theme-alpine"
         [rowData]="githubUsers" 
         [columnDefs]="columnDefs">
     </ag-grid-angular>
+
+    <div class="footer">
+        fiooter
+    </div>
 </div>

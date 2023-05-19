@@ -11,14 +11,14 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  getUsers(filter1?: string, filter2?: string, filter3?: string): Observable<IResponse<IUser>> {
+  getUsers(filterByUserName?: string, filterByEmail?: string, filterById?: string): Observable<IResponse<IUser>> {
     let url = `${this.apiUrl}/users`;
-    if (filter1 || filter2 || filter3) {
-      const filters = [filter1, filter2, filter3].filter(filter => !!filter);
+    if (filterByUserName || filterByEmail || filterById) {
+      const filters = [filterByUserName, filterByEmail, filterById].filter(filter => !!filter);
       const combinedFilters = filters.join('+');
-      url += `?q=${combinedFilters}`;
+      url += `?per_page=200&q=${combinedFilters}`;
     } else {
-      url += `?q=Q`;
+      url += `?per_page=200&q=Q`;
     }
     return this.http.get<IResponse<IUser>>(url);
   }

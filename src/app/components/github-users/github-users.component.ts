@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiService} from '../../services/api.service';
 import { IResponse, IUser } from '../../interface'
+import { ColDef, ICellRendererParams } from 'ag-grid-community';
 
 
 @Component({
@@ -11,49 +12,11 @@ import { IResponse, IUser } from '../../interface'
 export class GithubUsersComponent implements OnInit {
 
   githubUsers: IUser[] = [];
-  timeoutId: any;
-  filter1: string = '';
-  filter2: string = '';
-  filter3: string = '';
-  constructor(
-    private apiService: ApiService
-  ) { 
-    
-  }
-
-  ngOnInit(): void {
-    this.getUsers();
-  }
-
-  
-  applyFilters() {
-    clearTimeout(this.timeoutId);
-    this.timeoutId = setTimeout(() => {
-      this.getUsers(this.filter1, this.filter2, this.filter3)
-    }, 500);
-  }
-  
-  getUsers(filter1?: string, filter2?: string, filter3?: string){
-    this.apiService.getUsers(filter1, filter2, filter3).subscribe((res: IResponse<IUser>) => {
-      if(res.total_count) {
-        this.githubUsers = res.items.map(el => ({
-            id: el.id,
-            login: el.login,
-            avatar_url: el.avatar_url,
-            html_url: el.html_url,
-            followers_url: el.followers_url,
-            events_url: el.events_url,
-            score: el.score,
-            type: el.type,
-            node_id: el.node_id,
-        }))
-      }
-    },(error) => {
-      console.error('Error:', error);
-    })
-  }
-
-  columnDefs = [
+  timeoutId: NodeJS.Timeout = setTimeout(()=> {}, 2);
+  filterByUserName: string = '';
+  filterByEmail: string = '';
+  filterById: string = '';
+  columnDefs: ColDef[] = [
     { 
       field: "id",
       headerName: "id"
@@ -65,7 +28,7 @@ export class GithubUsersComponent implements OnInit {
     { 
       field: "avatar_url",
       headerName: "Avatar",
-      cellRenderer: function(params: any) {
+      cellRenderer: function(params: ICellRendererParams) {
         let newLink =  `<img class="avatar" src=${params.value} alt="Image Description">`;
         return newLink;
     }}, 
@@ -74,7 +37,7 @@ export class GithubUsersComponent implements OnInit {
       headerName: "Profile",
       wrapText: true,
       autoHeight: true,
-      cellRenderer: function(params: any) {
+      cellRenderer: function(params: ICellRendererParams) {
         let newLink = 
         `<a href= ${params.value}
         target="_blank">${params.value}</a>`;
@@ -85,7 +48,7 @@ export class GithubUsersComponent implements OnInit {
       headerName: "Followers",
       wrapText: true,
       autoHeight: true,
-      cellRenderer: function(params: any) {
+      cellRenderer: function(params: ICellRendererParams) {
         let newLink = 
         `<a href= ${params.value}
         target="_blank">${params.value}</a>`;
@@ -96,7 +59,7 @@ export class GithubUsersComponent implements OnInit {
       headerName: "Events",
       wrapText: true,
       autoHeight: true,
-      cellRenderer: function(params: any) {
+      cellRenderer: function(params: ICellRendererParams) {
         let newLink = 
         `<a href= ${params.value}
         target="_blank">${params.value}</a>`;
@@ -115,5 +78,38 @@ export class GithubUsersComponent implements OnInit {
       headerName: "Node Id",
     }
   ];
+
+  constructor(
+    private apiService: ApiService
+  ) { 
+    
+  }
+
+  public ngOnInit(): void {
+    this.getUsers();
+  }
+
+  
+  protected applyFilters() {
+    clearTimeout(this.timeoutId);
+    this.timeoutId = setTimeout(() => {
+      this.getUsers(this.filterByUserName, this.filterByEmail, this.filterById)
+    }, 500);
+  }
+  
+  private getUsers(filterByUserName?: string, filterByEmail?: string, filterById?: string){
+    this.apiService.getUsers(filterByUserName, filterByEmail, filterById).subscribe({
+      next: (res: IResponse<IUser>) => {
+        if(res.total_count) {
+          this.githubUsers = res.items;
+        }
+      },
+      error: (error) => {
+        console.error('Error:', error);
+      }  
+    });
+  }
+
+
 
 }
